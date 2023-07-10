@@ -6,19 +6,38 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useLoadedAssets } from "./hooks/useLoadedAssets";
 import Navigation from "./navigation";
 import { useColorScheme } from "react-native";
+import { useFonts } from "expo-font";
+import * as SplashScreen from 'expo-splash-screen';
+import { useCallback } from "react";
+
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const isLoadingComplete = useLoadedAssets();
   const colorScheme = useColorScheme();
 
-  if (!isLoadingComplete) {
+  const [isLoaded] = useFonts({
+    "poppinsLight": require("./assets/fonts/Poppins-Light.ttf"),
+    "poppinsMedium": require("./assets/fonts/Poppins-Medium.ttf"),
+    "poppinsSemiBold": require("./assets/fonts/Poppins-SemiBold.ttf"),
+    "poppinsBold": require("./assets/fonts/Poppins-Bold.ttf"),
+  });
+  
+
+  const handleOnLayout = useCallback(async () => {
+    if (isLoaded) {
+      await SplashScreen.hideAsync(); //hide the splashscreen
+    }
+  }, [isLoaded]);
+
+  if (!isLoaded) {
     return null;
-  } else {
-    return (
-      <SafeAreaProvider>
+  }
+
+  return (
+      <SafeAreaProvider onLayout={handleOnLayout}>
         <Navigation colorScheme={colorScheme} />
         <StatusBar />
       </SafeAreaProvider>
     );
-  }
 }
