@@ -1,6 +1,6 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { ProgressBar } from "../Graphs/ProgressBar";
-import { SubText, SubTitleText } from "../StyledText";
+import { SubText, SubTitleGrayText, SubTitleText } from "../StyledText";
 import shadowStyle from "../StyledShadow";
 import { useThemeColor } from "../Themed";
 import { useState } from "react";
@@ -10,6 +10,8 @@ import HabitCheckButton from "../Buttons/HabitCompleted.Button";
 
 import CalendarCustomWeek from "../Calendars/CalendarCustomWeek";
 import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
+import Clock from "./Clock";
+import HabitState from "./HabitState";
 
 export const HabitudeListItem = ({habits, viewableItems}) => {
 
@@ -19,6 +21,8 @@ export const HabitudeListItem = ({habits, viewableItems}) => {
     const stylesShadow = shadowStyle(shadowColor);
 
     const [isChecked, setIsChecked] = useState(false)
+
+    const isFinished = (habits.state === "done" || habits.state === "skip" || habits.state === "cancel")
 
     const handlePress = () =>
     {
@@ -30,7 +34,7 @@ export const HabitudeListItem = ({habits, viewableItems}) => {
         const isVisible = viewableItems.value.some((viewableItem) => viewableItem.item.titre === habits.titre && viewableItem.isViewable);
 
         return{
-            opacity: withTiming(isVisible ? 1 : 0),
+            opacity: withTiming(isVisible ? (isFinished ? 0.5 : 1) : 0),
             transform: [{
                 scale: withTiming(isVisible ? 1 : 0.6)
             }]
@@ -45,20 +49,19 @@ export const HabitudeListItem = ({habits, viewableItems}) => {
         [
             styles.Habits,
             {
-                backgroundColor: secondary
+                backgroundColor: secondary,
+                opacity: isFinished ? 0.75 : 1
             },
             rStyle
         ]}>
-            <View style={{flex: 1}}>
-                <SubTitleText text={habits.titre}/>
-                <View style={{margin: -5, marginBottom: 0}}>
-                    <CalendarCustomWeek colorHabit={habits.color} habitude={habits.titre}/>
-                </View>
+            <View style={styles.habitsTitleStateContainer}>
+                {isFinished ? <SubTitleGrayText text={habits.titre}/> : <SubTitleText text={habits.titre}/>}
+                <HabitState state={habits.state}/>
+            </View>
+            <View style={styles.footerHabits}>
+                <Clock minutes={habits.duree} isFinished={isFinished}/>
             </View>
 
-            <View style={{alignItems: "center", display:"flex", marginLeft: 40, justifyContent:"center"}}>
-                <HabitCheckButton onPress={() => {setIsChecked(!isChecked)}} isChecked={isChecked} couleur={habits.color}/>
-            </View>
         </Animated.View>
     </TouchableOpacity>)
 };
@@ -78,6 +81,18 @@ const styles = StyleSheet.create(
 
         TouchableScreen: {
             flex: 1,
+        },
+
+        footerHabits: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems:"center"
+        },
+        habitsTitleStateContainer: {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
         }
     }
 )

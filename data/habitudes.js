@@ -27,11 +27,20 @@ const generateRandomHabitudes = () => {
     "#008080",
     "#ff6347",
   ];
+
+  const states = [
+    "done",
+    "todo",
+    "cancel",
+    "skip"
+  ]
+
   const habitudes = titles.map((titre, index) => ({
     titre,
-    duree: Math.floor(Math.random() * 5) + 1,
+    duree: Math.floor(Math.random() * 60) + 1,
     pourcentage: getRandomPercentage(),
     color: colors[index % colors.length],
+    state: states[Math.floor(Math.random() * states.length)],
     id: (index + 1).toString(),
   }));
 

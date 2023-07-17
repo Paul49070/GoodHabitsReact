@@ -36,6 +36,20 @@ const TabOneScreen = () => {
     { onViewableItemsChanged },
   ]);
 
+  const numColumns = 1;
+
+  const sortedHabits = Habitudes.sort((a, b) => {
+    if (
+      a.state === "done" ||
+      a.state === "skip" ||
+      a.state === "cancel"
+    ) {
+      return 1; // Place l'habitude à la fin si elle satisfait la condition
+    } else {
+      return -1; // Garde l'habitude à sa position actuelle si elle ne satisfait pas la condition
+    }
+  });
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
@@ -74,8 +88,8 @@ const TabOneScreen = () => {
               }
 
             showsVerticalScrollIndicator={false}
-            style={styles.HabitsList} key={1}
-            data={Habitudes} numColumns={1} 
+            style={styles.HabitsList} key={numColumns}
+            data={sortedHabits} numColumns={numColumns} 
             keyExtractor={item => item.id}/>
 
           </View>
@@ -119,10 +133,10 @@ const styles = StyleSheet.create({
   }, 
 
   container: {
-    padding: 20,
+    padding: 30,
     paddingBottom: 0,
     flex:1,
-    gap: "20px",
+    gap: 20,
     display: "flex"
   },
 });

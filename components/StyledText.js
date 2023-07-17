@@ -70,6 +70,28 @@ export function SubTitleText(props) {
   )
 }
 
+export function SubTitleGrayText(props) {
+
+  const fontGray = useThemeColor({}, "FontGray")
+
+  return (
+    <Text
+      {...props}
+      style=
+      {
+        [
+          props.style,
+          styles.subTitleText,
+          {
+            color: fontGray
+          }
+        ]
+      }> 
+      {props.text} 
+    </Text>
+  )
+}
+
 export function NormalText(props) {
 
   const fontColor = useThemeColor({}, "Font")
@@ -135,6 +157,8 @@ export function HugeText(props) {
     </Text>
   )
 } 
+
+
 
 const styles = StyleSheet.create({
 
