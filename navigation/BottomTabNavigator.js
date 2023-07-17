@@ -18,6 +18,7 @@ import DayDetailScreen from "../screens/DayDetailScreen";
 import ProfilDetailsScreen from "../screens/ProfilDetailsScreen";
 import MultipleAchievementScreen from "../screens/MultipleAchievementScreen";
 import { useNavigation } from "@react-navigation/native";
+import NewsScreen from "../screens/NewsScreen";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -36,7 +37,7 @@ export default function BottomTabNavigator() {
 
     
     <BottomTab.Navigator
-      initialRouteName="Accueil"
+      initialRouteName="Profil"
       screenOptions={{ tabBarActiveTintColor: contrast, 
       headerShown: false,
       tabBarStyle: {
@@ -60,8 +61,8 @@ export default function BottomTabNavigator() {
           />
 
       <BottomTab.Screen
-        name="Accueil"
-        component={TabTwoNavigator}
+        name="News"
+        component={NewsScreenNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
@@ -73,7 +74,7 @@ export default function BottomTabNavigator() {
         }}
       />
 
-      {/*}
+      
         <BottomTab.Screen
           name="Add"
           component={TabTwoNavigator}
@@ -85,7 +86,7 @@ export default function BottomTabNavigator() {
             ),
             tabBarLabel: () => null
           }}
-        />*/}
+        />
 
       <BottomTab.Screen
         name="Stats"
@@ -127,14 +128,6 @@ function MaterialIcon(props) {
 
 function AntDesignIcon(props) {
   return <AntDesign size={20} {...props} />;
-}
-
-function FeatherIcon(props) {
-  return <Feather size={20} {...props} />;
-}
-
-function OcticonsIcon(props) {
-  return <Octicons size={20} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
@@ -201,5 +194,19 @@ function TabTwoNavigator() {
         options={{ headerTitle: "Menu" }}
       />   
     </TabTwoStack.Navigator>
+  );
+}
+
+const NewsScreenStack = createStackNavigator();
+
+function NewsScreenNavigator() {
+  return (
+    <NewsScreenStack.Navigator screenOptions={{ headerShown: false }}>
+      <NewsScreenStack.Screen
+        name="NewsScreen"
+        component={NewsScreen}
+        options={{ headerTitle: "News" }}
+      />   
+    </NewsScreenStack.Navigator>
   );
 }

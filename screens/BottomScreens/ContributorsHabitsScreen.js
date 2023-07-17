@@ -45,7 +45,7 @@ const ContributorsHabitsScreen = ({bottomSheetModalRef, snapPoints, handleSheetC
       {
           return(
           <View style={{margin: 20}}>
-            <CircularBarProfil nom={item.nom} pourcentage={item.pourcentage} couleur={couleur} image={item.image}/>
+            <CircularBarProfil profil={item} couleur={couleur}/>
           </View>
         )
       }
@@ -78,12 +78,7 @@ const ContributorsHabitsScreen = ({bottomSheetModalRef, snapPoints, handleSheetC
                   style={styles.HabitsList} key={2}
                   data={contributorsList} numColumns={3} 
                   keyExtractor={item => item.id}
-                />}
-
-
-
-
-                
+                />}                
 
                 {!isContributors && <NormalText text="aucun amis nullos"/>}
 

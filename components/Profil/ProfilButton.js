@@ -10,20 +10,19 @@ export const ProfilButton = ({onPress}) => {
 
     return(
         <TouchableOpacity onPress={onPress} accessibilityLabel={"profilPictureBtn"}>
-            <View style={{
-                borderRadius: 15,width: 50, height: 50}}>
-
-                <Image style={
+            <View style={styles.imageContainerStyle}>
+                <Image 
+                style={
                     [
-                        styles.imageStyle,
-                        {
-                            backgroundColor: primary
-                        }]} 
-                        source={require("../../img/ProfilPicture/Memoji-07.png")}>
+                        styles.imageStyle, { backgroundColor: secondary }
+                    ]
+                } 
+
+                    source={require("../../img/TestVrai.png")}>
 
                 </Image>    
 
-                <Badge fillColor={contrast} bgColor={secondary}/>
+                <Badge fillColor={contrast} bgColor={primary}/>
 
             </View>
           </TouchableOpacity>
@@ -40,4 +39,10 @@ const styles = StyleSheet.create({
         maxHeight: 60,
         borderRadius: 15,
       },
+
+    imageContainerStyle: {
+        borderRadius: 15,
+        width: 50, 
+        height: 50
+    }
 });

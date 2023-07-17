@@ -7,11 +7,12 @@ const SearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
     const fontGray = useThemeColor({}, "FontGray")
     const font = useThemeColor({}, "Font")
     const primary = useThemeColor({}, "Primary")
+    const secondary = useThemeColor({}, "Secondary")
 
     return (
       <View style={styles.container}>
         <View
-          style={ clicked ? [styles.searchBar__clicked, {backgroundColor: primary}] : [styles.searchBar__unclicked, {backgroundColor: primary}] }>
+          style={ clicked ? [styles.searchBar__clicked, {backgroundColor: secondary}] : [styles.searchBar__unclicked, {backgroundColor: secondary}] }>
 
           <Feather
             name="search"

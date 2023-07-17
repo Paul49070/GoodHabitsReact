@@ -3,7 +3,6 @@ import { useRef, useMemo, useCallback } from "react";
 import { useThemeColor } from "../Themed";
 import { NormalText, SubText, SubTitleText, TitleText } from "../StyledText";
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import AchievementsScreen from "../../screens/BottomScreens/AchievementsScreen";
 
 export const AchievementBox = ({ titre, image, description, isAchieved, onPress, whiteText }) => {
 
@@ -27,7 +26,7 @@ export const AchievementBox = ({ titre, image, description, isAchieved, onPress,
           style={[
             styles.imageStyle,
             {
-              tintColor: isAchieved ? "none" : "gray",
+              tintColor: isAchieved ? null : "gray",
             },
           ]}
           source={image}

@@ -18,7 +18,7 @@ import { LayoutAnimation } from "react-native";
 
 import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 
-import CalendarCustom from "../components/CalendarCustom";
+import CalendarCustom from "../components/Calendars/CalendarCustom";
 import ContributorsHabitsScreen from "./BottomScreens/ContributorsHabitsScreen";
 
 const DayDetailScreen = ({route}) => {

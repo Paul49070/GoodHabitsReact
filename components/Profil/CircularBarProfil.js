@@ -1,20 +1,17 @@
-import { StyleSheet, TouchableOpacity } from "react-native"
-import { Image } from "react-native"
+import { StyleSheet, TouchableOpacity, Image, View } from "react-native"
 import { useThemeColor } from "../Themed"
 
 
-import ProgressCircle from "react-native-progress-circle"
-import { Text, View } from "react-native"
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { SubText } from "../StyledText"
-
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import { useState } from "react"
 import { Feather } from "@expo/vector-icons"
 
-export const CircularBarProfil = ({nom, pourcentage, couleur, image}) =>
+export const CircularBarProfil = ({profil, couleur}) =>
 {
-    const primary = useThemeColor({}, "Primary")
+    const {nom, pourcentage, image, id} = profil
+
     const secondary = useThemeColor({}, "Secondary")
     const [isLoading, setIsLoading] = useState(true)
 
@@ -25,24 +22,32 @@ export const CircularBarProfil = ({nom, pourcentage, couleur, image}) =>
     return(
 
         <View style={styles.container}>
-            <TouchableOpacity accessibilityLabel={nom}>
-                <ProgressCircle
-                    percent={pourcentage}
-                    radius={40}
-                    borderWidth={4}
-                    color={couleur}
-                    shadowColor="transparent"
-                    bgColor={secondary}>
+            <TouchableOpacity accessibilityLabel={id}>
+            <AnimatedCircularProgress
+                size={80}
+                width={4}
+                fill={pourcentage}
+                tintColor={couleur}
+                lineCap="round"
+                onAnimationComplete={() => console.log('onAnimationComplete')}
+                backgroundColor={secondary}>
+                    {
+                        () => {
+                        return(
+                        <View style={{}}>
+                            <Image 
+                            onLoadEnd={handleStopLoad}
+                            style={[
+                                styles.imageStyle, 
+                                {
+                                    backgroundColor: isLoading ? secondary : "transparent"
+                                }]} source={image}>
 
-                        <Image 
-                        onLoadEnd={handleStopLoad}
-                        style={[
-                            styles.imageStyle, 
-                            {
-                                backgroundColor: isLoading ? secondary : "transparent"
-                            }]} source={image}></Image>    
-                        
-                </ProgressCircle>
+                            </Image>
+                        </View>)    
+                        }
+                        }
+                </AnimatedCircularProgress>
             </TouchableOpacity>
 
         <SubText text={nom}/>
@@ -54,24 +59,20 @@ export const CircularBarProfil = ({nom, pourcentage, couleur, image}) =>
 
 export const AddCircularBarProfil = ({nom}) =>
 {
+
     const fontGray = useThemeColor({}, "FontGray")
     const secondary = useThemeColor({}, "Secondary")
+    const primary = useThemeColor({}, "Primary")
 
     return(
 
         <View style={styles.container}>
             <TouchableOpacity accessibilityLabel={nom}>
-                <ProgressCircle
-                    percent={0}
-                    radius={40}
-                    borderWidth={4}
-                    color="transparent"
-                    shadowColor="transparent"
-                    bgColor={secondary}>
-                    
-                    <Feather name="plus" size={25} color={fontGray} />                    
-                        
-                </ProgressCircle>
+            <View
+                style={{backgroundColor:secondary, borderRadius: 50, width: 80, height: 80,
+                display:"flex", alignItems: "center", justifyContent:"center"}}>
+                    <Feather name="plus" size={25} color={fontGray}/>
+                </View>
             </TouchableOpacity>
 
         <SubText text={nom}/>
@@ -88,7 +89,7 @@ const styles = StyleSheet.create(
             justifyContent: 'center',
             resizeMode: 'contain',
             aspectRatio: 1,
-            width: "90%", height: "90%",
+            width: "100%", height: "100%",
             borderRadius: 15,
         },
 
