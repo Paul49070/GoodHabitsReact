@@ -1,7 +1,7 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { ProgressBar } from "../Graphs/ProgressBar";
-import { SubText, SubTitleText } from "../StyledText";
-import shadowStyle from "../StyledShadow";
+import { SubText, SubTitleText } from "../../styles/StyledText";
+import shadowStyle from "../../styles/StyledShadow";
 import { useThemeColor } from "../Themed";
 
 import { useNavigation } from "@react-navigation/native";

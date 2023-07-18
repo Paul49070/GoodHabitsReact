@@ -4,9 +4,7 @@ import { StyleSheet } from 'react-native';
 import { View, Text } from 'react-native'
 
 const HabitState = ({state}) => {
-
-    console.log(state)
-
+    
     let color; let icon; let text;
 
     switch (state) {
@@ -46,7 +44,7 @@ const HabitState = ({state}) => {
 const styles = StyleSheet.create({
     habitStateContainer: {
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         alignItems:"center",
         gap: 5
     }

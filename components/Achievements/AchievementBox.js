@@ -1,7 +1,7 @@
 import { Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useRef, useMemo, useCallback } from "react";
 import { useThemeColor } from "../Themed";
-import { NormalText, SubText, SubTitleText, TitleText } from "../StyledText";
+import { NormalText, SubText, SubTitleText, TitleText } from "../../styles/StyledText";
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 export const AchievementBox = ({ titre, image, description, isAchieved, onPress, whiteText }) => {

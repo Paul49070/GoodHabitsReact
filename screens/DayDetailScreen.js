@@ -1,5 +1,5 @@
 import { View, SafeAreaView, StyleSheet } from "react-native"
-import { HugeText, NormalText, TitleText } from "../components/StyledText"
+import { HugeText, NormalText, TitleText } from "../styles/StyledText"
 import { useThemeColor } from "../components/Themed"
 import React from "react";
 import { SimpleIconButton } from "../components/Buttons/IconButton";

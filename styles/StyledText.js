@@ -1,7 +1,7 @@
 import { Platform } from "react-native";
 import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
-import { useThemeColor } from "./Themed";
-import { Text } from "./Themed";
+import { useThemeColor } from "../components/Themed";
+import { Text } from "../components/Themed";
 
 
 export function SubText(props) {
@@ -82,6 +82,28 @@ export function SubTitleGrayText(props) {
         [
           props.style,
           styles.subTitleText,
+          {
+            color: fontGray
+          }
+        ]
+      }> 
+      {props.text} 
+    </Text>
+  )
+}
+
+export function TitleGrayText(props) {
+
+  const fontGray = useThemeColor({}, "FontGray")
+
+  return (
+    <Text
+      {...props}
+      style=
+      {
+        [
+          props.style,
+          styles.titleText,
           {
             color: fontGray
           }

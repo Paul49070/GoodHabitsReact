@@ -1,7 +1,7 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import { ProgressBar } from "../Graphs/ProgressBar";
-import { SubText, SubTitleGrayText, SubTitleText } from "../StyledText";
-import shadowStyle from "../StyledShadow";
+import { SubText, SubTitleGrayText, SubTitleText, TitleGrayText, TitleText } from "../../styles/StyledText";
+import shadowStyle from "../../styles/StyledShadow";
 import { useThemeColor } from "../Themed";
 import { useState } from "react";
 
@@ -11,27 +11,31 @@ import HabitCheckButton from "../Buttons/HabitCompleted.Button";
 import CalendarCustomWeek from "../Calendars/CalendarCustomWeek";
 import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
 import Clock from "./Clock";
+import { StepCircularBar } from "./StepCircularBar";
 import HabitState from "./HabitState";
+import { CircularBarProfil } from "../Profil/CircularBarProfil";
+import { ContributorsHabits } from "../../data/habitudes";
 
-export const HabitudeListItem = ({habits, viewableItems}) => {
+import cardStyle from "../../styles/StyledCard";
+
+export const HabitudeListItem = ({habit, viewableItems}) => {
 
     const secondary = useThemeColor({}, "Secondary")
-    const shadowColor = useThemeColor({}, "ShadowColor")
     const navigation = useNavigation();
-    const stylesShadow = shadowStyle(shadowColor);
+    const stylesCard = cardStyle()
 
     const [isChecked, setIsChecked] = useState(false)
 
-    const isFinished = (habits.state === "done" || habits.state === "skip" || habits.state === "cancel")
+    const isFinished = (habit.state === "done" || habit.state === "skip" || habit.state === "cancel")
 
     const handlePress = () =>
     {
-        navigation.navigate("HabitudeScreen", {titre: habits.titre, couleur: habits.color, pourcentage: habits.pourcentage});
+        navigation.navigate("HabitudeScreen", {titre: habit.titre, couleur: habit.color, pourcentage: habit.pourcentage});
     }
 
     const rStyle = useAnimatedStyle(() => {
 
-        const isVisible = viewableItems.value.some((viewableItem) => viewableItem.item.titre === habits.titre && viewableItem.isViewable);
+        const isVisible = viewableItems.value.some((viewableItem) => viewableItem.item.titre === habit.titre && viewableItem.isViewable);
 
         return{
             opacity: withTiming(isVisible ? (isFinished ? 0.5 : 1) : 0),
@@ -43,24 +47,25 @@ export const HabitudeListItem = ({habits, viewableItems}) => {
 
     return(
 
-    <TouchableOpacity style={[styles.TouchableScreen, stylesShadow.shadow]} onPress={handlePress} accessibilityLabel={habits.titre}>
+    <TouchableOpacity style={styles.TouchableScreen} onPress={handlePress} accessibilityLabel={habit.titre}>
         <Animated.View 
         style={
         [
-            styles.Habits,
+            stylesCard.card,
+            styles.habit,
             {
-                backgroundColor: secondary,
                 opacity: isFinished ? 0.75 : 1
             },
             rStyle
         ]}>
-            <View style={styles.habitsTitleStateContainer}>
-                {isFinished ? <SubTitleGrayText text={habits.titre}/> : <SubTitleText text={habits.titre}/>}
-                <HabitState state={habits.state}/>
+
+            <StepCircularBar habit={habit}/>
+
+            <View style={styles.habitTitleStateContainer}>
+                {isFinished ? <SubTitleGrayText text={habit.titre}/> : <SubTitleText text={habit.titre}/>}
+                <SubText text="30 min 4 fois par jour"/>
             </View>
-            <View style={styles.footerHabits}>
-                <Clock minutes={habits.duree} isFinished={isFinished}/>
-            </View>
+
 
         </Animated.View>
     </TouchableOpacity>)
@@ -68,12 +73,10 @@ export const HabitudeListItem = ({habits, viewableItems}) => {
 
 const styles = StyleSheet.create(
     {    
-        Habits: {
+        habit: {
             flex: 1,
             margin: 10,
-            padding: 20,
-            borderRadius: 10,
-            gap: 10,
+            gap: 20,
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
@@ -83,16 +86,17 @@ const styles = StyleSheet.create(
             flex: 1,
         },
 
-        footerHabits: {
+        footerhabit: {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems:"center"
         },
-        habitsTitleStateContainer: {
+        habitTitleStateContainer: {
+            flex:1,
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
+            justifyContent: "space-around"
         }
     }
 )

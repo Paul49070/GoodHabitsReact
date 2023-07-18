@@ -2,7 +2,7 @@ import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider } from 
 import { View, StyleSheet, FlatList } from "react-native"
 
 import { IconButton } from "../../components/Buttons/IconButton"
-import { TitleText, NormalText } from "../../components/StyledText"
+import { TitleText, NormalText } from "../../styles/StyledText"
 import { useRef, useMemo, useCallback, useState } from "react"
 import { Feather } from "@expo/vector-icons"
 import { useThemeColor } from "../../components/Themed"
@@ -14,7 +14,6 @@ const ContributorsHabitsScreen = ({bottomSheetModalRef, snapPoints, handleSheetC
     const contributorsList = ContributorsHabits.filter((item) => item.habitude === habitude)
 
     contributorsList.push({addingButton: true})
-    console.log(contributorsList, habitude)
 
     const isContributors = contributorsList.length !== 0
 

@@ -10,7 +10,7 @@ import { useState, useRef, useCallback, useMemo } from "react";
   import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 
 
-  import { LittleNormalText, NormalText, SubText, TitleText } from '../StyledText';
+  import { LittleNormalText, NormalText, SubText, TitleText } from '../../styles/StyledText';
   import { useSharedValue } from "react-native-reanimated"
   import Calendar, { useCalendarContext, onPageChange  } from 'react-native-swipe-calendar';
   import { differenceInCalendarMonths, format, addMonths } from 'date-fns'

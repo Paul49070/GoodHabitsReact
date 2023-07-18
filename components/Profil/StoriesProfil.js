@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity, View, Image, StyleSheet } from "react-native"
 import { useState } from "react"
 import { useThemeColor } from "../Themed"
-import { LittleNormalText, SubText } from "../StyledText"
+import { LittleNormalText, SubText } from "../../styles/StyledText"
 import { LinearGradient } from "expo-linear-gradient"
 export const StoriesProfil = ({profil}) => {
 

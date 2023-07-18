@@ -4,10 +4,10 @@ import {SafeAreaView, StyleSheet, View} from 'react-native';
 import { useThemeColor } from '../components/Themed';
 
 import { FlatList } from 'react-native';
-import { SubTitleText, HugeText } from '../components/StyledText';
+import { SubTitleText, HugeText } from '../styles/StyledText';
 import { Habitudes } from '../data/habitudes';
 
-import shadowStyle from '../components/StyledShadow';
+import shadowStyle from '../styles/StyledShadow';
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import { ProfilButton } from '../components/Profil/ProfilButton';
@@ -15,6 +15,7 @@ import { ProfilButton } from '../components/Profil/ProfilButton';
 import { useNavigation } from "@react-navigation/native";
 import { HabitudeListItem } from '../components/Habitudes/HabitudeListItem';
 import { useSharedValue } from 'react-native-reanimated';
+import { TextInput } from 'react-native';
 
 const TabOneScreen = () => {
 
@@ -62,8 +63,7 @@ const TabOneScreen = () => {
                 ]
                 }>
 
-                  <HugeText text="Salut Paul !"/>
-
+                  <HugeText text="Salut Paul !"/>  
                   <ProfilButton onPress={handleOpenProfilDetails}/>
 
             </View>
@@ -83,7 +83,7 @@ const TabOneScreen = () => {
             }
 
             renderItem={({item}) => {
-              return <HabitudeListItem habits={item} viewableItems={viewableItems}/>
+              return <HabitudeListItem habit={item} viewableItems={viewableItems}/>
                 }
               }
 

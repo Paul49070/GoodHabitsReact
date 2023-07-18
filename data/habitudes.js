@@ -3,16 +3,16 @@ const getRandomPercentage = () => Math.floor(Math.random() * 100);
 const generateRandomHabitudes = () => {
 
   const titles = [
-    "Running",
-    "Manger sain",
-    "Lire",
-    "Méditer",
-    "Faire du sport",
-    "Étudier",
-    "Yoga",
-    "Peindre",
-    "Marcher",
-    "Écrire",
+    {titre: "Running", icon: require('../img/HabitsIcons/run.png') },
+    {titre: "Manger sain", icon: require('../img/HabitsIcons/healthy.png')},
+    {titre: "Lire", icon: require('../img/HabitsIcons/books.png')},
+    {titre: "Méditer", icon: require('../img/HabitsIcons/meditation.png')},
+    {titre: "Faire du sport", icon: require('../img/HabitsIcons/bike.png')},
+    {titre: "Étudier", icon: require('../img/HabitsIcons/books.png')},
+    {titre: "Yoga", icon: require('../img/HabitsIcons/meditation.png')},
+    {titre: "Peindre", icon: require('../img/HabitsIcons/pencil.png')},
+    {titre: "Marcher", icon: require('../img/HabitsIcons/run.png')},
+    {titre: "Écrire", icon: require('../img/HabitsIcons/pencil.png')},
   ];
   
   const colors = [
@@ -35,14 +35,22 @@ const generateRandomHabitudes = () => {
     "skip"
   ]
 
-  const habitudes = titles.map((titre, index) => ({
-    titre,
-    duree: Math.floor(Math.random() * 60) + 1,
-    pourcentage: getRandomPercentage(),
-    color: colors[index % colors.length],
-    state: states[Math.floor(Math.random() * states.length)],
-    id: (index + 1).toString(),
-  }));
+  const habitudes = titles.map(({titre, icon}, index) =>
+  {
+      const totalSteps = Math.floor(Math.random() * 9) + 1;
+
+      return {
+        
+        titre: titre,
+        pourcentage: getRandomPercentage(),
+        color: colors[index % colors.length],
+        state: states[Math.floor(Math.random() * states.length)],
+        totalSteps: totalSteps,
+        icon: icon,
+        doneSteps:  Math.floor(Math.random() * totalSteps) + 1,
+        id: (index + 1).toString(),
+      }
+  });
 
   return habitudes;
 };
@@ -107,8 +115,6 @@ const generateRandomContributors = (habitudes) => {
     for (let i = 0; i < randomContributorsCount; i++) {
 
       const randomFriend = Friends[Math.floor(Math.random() * Friends.length)];
-
-      console.log(randomFriend)
 
       const contributor = {
         nom: randomFriend.name,

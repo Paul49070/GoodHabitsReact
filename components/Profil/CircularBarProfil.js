@@ -3,7 +3,7 @@ import { useThemeColor } from "../Themed"
 
 
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import { SubText } from "../StyledText"
+import { SubText } from "../../styles/StyledText"
 
 import { useState } from "react"
 import { Feather } from "@expo/vector-icons"

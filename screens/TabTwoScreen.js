@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
 
-import { TitleText } from "../components/StyledText";
+import { TitleText } from "../styles/StyledText";
 
 export default function TabTwoScreen() {
   return (

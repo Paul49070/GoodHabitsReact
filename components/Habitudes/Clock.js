@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Feather } from '@expo/vector-icons'
-import { LittleNormalText, NormalText, SubText, SubTitleText, TitleText } from '../StyledText'
+import { LittleNormalText, NormalText, SubText, SubTitleText, TitleText } from '../../styles/StyledText'
 import { useThemeColor } from '../Themed'
 
 const Clock = ({minutes, isFinished}) => {

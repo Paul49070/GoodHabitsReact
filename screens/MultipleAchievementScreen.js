@@ -1,8 +1,6 @@
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import { View, StyleSheet, FlatList, Image } from "react-native"
 
-import { IconButton } from "../components/Buttons/IconButton"
-import { TitleText, NormalText } from "../components/StyledText"
 import { useRef, useMemo, useCallback, useState } from "react"
 import { Feather } from "@expo/vector-icons"
 import { useThemeColor } from "../components/Themed"

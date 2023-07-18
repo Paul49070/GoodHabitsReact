@@ -2,7 +2,7 @@ import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider } from 
 import { View, StyleSheet, FlatList, Image } from "react-native"
 
 import { IconButton } from "../components/Buttons/IconButton"
-import { TitleText, NormalText, SubTitleText, SubText } from "../components/StyledText"
+import { TitleText, NormalText, SubTitleText, SubText } from "../styles/StyledText"
 import { useRef, useMemo, useCallback, useState } from "react"
 import { Feather } from "@expo/vector-icons"
 import { useThemeColor } from "../components/Themed"
