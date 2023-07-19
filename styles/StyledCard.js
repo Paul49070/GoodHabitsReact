@@ -12,10 +12,10 @@ const cardStyle = () => {
       backgroundColor: secondary,
       padding: 20,
 
-      shadowColor: shadowColor,
+      shadowColor: "#0f0f13",
       shadowOffset: {
         width: 0,
-        height: 11,
+        height: 5,
       },
       shadowOpacity:  0.23,
       shadowRadius: 11.78,
@@ -23,14 +23,14 @@ const cardStyle = () => {
     },
 
     shadow : {
-      shadowColor: "red",
+      shadowColor: "#0f0f13",
       shadowOffset: {
         width: 0,
-        height: 5090,
+        height: 5,
       },
-      shadowOpacity:  1,
+      shadowOpacity:  0.23,
       shadowRadius: 11.78,
-      elevation: 150
+      elevation: 15
     },
   });
 };

@@ -56,7 +56,7 @@ const generateRandomHabitudes = () => {
 };
 
 const imagePaths = [
-  require('../img/FreeFacesPack/x500/45m.jpg'),
+  require('../img/TestVrai.png'),
   require('../img/FreeFacesPack/x500/02m.jpg'),
   require('../img/FreeFacesPack/x500/06w.jpg'),
   require('../img/FreeFacesPack/x500/04w.jpg'),
@@ -87,7 +87,7 @@ const imagePaths = [
 ];
 
 const names = [
-  "Anthony", "Emma", "Louis", "Chloe", "Gabriel", "Ines", "William", "Olivia",
+  "Paul", "Emma", "Louis", "Chloe", "Gabriel", "Ines", "William", "Olivia",
   "Thomas", "Charlotte", "Leo", "Sophia", "Maxime", "Alice", "Hugo", "Julia",
   "Alexandre", "Eva", "Nicolas", "Zoe", "Mathis", "Lena", "Raphael", "Camille",
   "Arthur", "Emma"

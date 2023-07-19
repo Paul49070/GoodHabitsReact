@@ -94,7 +94,7 @@ while (cancelDate.length < 16) {
     const backgroundColor = isSelected ? contrast :  "transparent"
     const borderColor = isSelected ? contrast :  (isToday ? contrast : "transparent")
 
-    const stateDayColor = isSuccessDate ? "#39BF5C" : (isLittleSuccess ? "#ceba5b" : (isCancel ? "#bc3b40" : "transparent"))
+    const stateDayColor = isSuccessDate ? "#39BF5C" : (isLittleSuccess ? "#ceba5b" : (isCancel ? "#bc3b40" : (isSelected ? "white" : "transparent")))
 
     const ctx = useCalendarContext();
 

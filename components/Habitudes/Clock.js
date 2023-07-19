@@ -13,7 +13,7 @@ const Clock = ({minutes, isFinished}) => {
         return (
             <View style={styles.clockContainer}>
                 <Feather name="clock" size={24} color={fontGray} />
-                <SubText text={minutes + "min"} />
+                <SubText text={minutes} />
             </View>
         )
     }
@@ -23,7 +23,7 @@ const Clock = ({minutes, isFinished}) => {
         return (
             <View style={styles.clockContainer}>
                 <Feather name="clock" size={24} color={"white"} />
-                <LittleNormalText text={minutes + "min"} />
+                <LittleNormalText text={minutes} />
             </View>
         )
     }

@@ -25,6 +25,7 @@ const BottomTab = createBottomTabNavigator();
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   const primary = useThemeColor({}, "Primary")
+  const secondary = useThemeColor({}, "Secondary")
   const contrast = useThemeColor({}, "Contrast")
 
   const navigation = useNavigation()
@@ -41,7 +42,7 @@ export default function BottomTabNavigator() {
       screenOptions={{ tabBarActiveTintColor: contrast, 
       headerShown: false,
       tabBarStyle: {
-        backgroundColor: primary,
+        backgroundColor: secondary, borderWidth: 0,
         display: "flex",
         justifyContent: "center",
         alignItems:"center",

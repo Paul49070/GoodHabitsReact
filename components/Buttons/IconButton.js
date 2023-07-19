@@ -29,7 +29,7 @@ export const SimpleIconButton = (props) =>
 export const ContrastRoundButton = (props) =>
 {
     const contrast = useThemeColor({}, "Contrast")
-    const primary = useThemeColor({}, "Primary")
+    const secondary = useThemeColor({}, "Secondary")
 
     return(
     <TouchableOpacity onPress={props.onClick}

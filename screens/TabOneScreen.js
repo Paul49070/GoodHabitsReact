@@ -5,9 +5,10 @@ import { useThemeColor } from '../components/Themed';
 
 import { FlatList } from 'react-native';
 import { SubTitleText, HugeText, SubTitleGrayText } from '../styles/StyledText';
-import { Habitudes } from '../data/habitudes';
+import { Habitudes, Friends } from '../data/habitudes';
 
 import shadowStyle from '../styles/StyledShadow';
+
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import { ProfilButton } from '../components/Profil/ProfilButton';
@@ -19,6 +20,7 @@ import { TextInput } from 'react-native';
 import HomeCalendarCustomWeek from '../components/Calendars/HomeCalendarCustomWeek';
 import CalendarCustom from '../components/Calendars/CalendarCustom';
 import cardStyle from '../styles/StyledCard';
+import viewStyle from '../styles/StyledView';
 
 const TabOneScreen = () => {
 
@@ -40,7 +42,7 @@ const TabOneScreen = () => {
     { onViewableItemsChanged },
   ]);
 
-  const numColumns = 2;
+  const numColumns = 1;
 
   const sortedHabits = Habitudes.sort((a, b) => {
     if (a.doneSteps >= a.totalSteps) 
@@ -58,11 +60,12 @@ const TabOneScreen = () => {
   const currentDateMonth = currentDate.toLocaleDateString("fr", {month: "long"})
   const currentDateDayMonth = currentDate.getDate() + " " + currentDate.toLocaleDateString("fr", {month: "short"})
   const stylesCard = cardStyle()
+  const stylesView = viewStyle()
 
   return (
     <SafeAreaView style={{ flex: 1,backgroundColor: secondary }}>
       <BottomSheetModalProvider>
-        <View style={[styles.container, stylesCard.shadow]}>
+        <View style={[styles.container]}>
             
             <View style={[styles.headerParentContainer, {backgroundColor:primary}]}>
             <View style={[styles.headerContainer, {backgroundColor:secondary}]}>
@@ -77,7 +80,7 @@ const TabOneScreen = () => {
                     </View> 
 
                     <View style={{alignItems: "center", justifyContent:"center", display:"flex"}}>
-                      <ProfilButton onPress={handleOpenProfilDetails}/>
+                      <ProfilButton onPress={handleOpenProfilDetails} profil={Friends[0]}/>
                     </View>
 
               </View>
@@ -89,7 +92,7 @@ const TabOneScreen = () => {
             </View>
 
             
-            <View style={[styles.coreContainer, {margin:-30, marginBottom:0, padding:30, paddingVertical: 15, backgroundColor: primary}]}>
+            <View style={stylesView.backgroundView}>
 
                 
               <View style={{display: "flex", flexDirection: "row", alignItems:"center", justifyContent: "space-between", marginVertical: 10}}>
@@ -104,10 +107,10 @@ const TabOneScreen = () => {
             }
 
             renderItem={({item}) => {
-              return <HabitudeListItem habit={item} viewableItems={viewableItems}/>
+              return <HabitudeListItem habit={item} viewableItems={viewableItems} index={item.index}/>
                 }
               }
-              contentContainerStyle={{paddingBottom: 30}}
+              contentContainerStyle={{}}
             showsVerticalScrollIndicator={false}
             style={styles.HabitsList} key={numColumns}
             data={sortedHabits} numColumns={numColumns} 
@@ -151,13 +154,16 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     display: "flex",
     margin: -15,
-    marginTop: 0
+    marginLeft: -45,
+    marginTop: 0, marginBottom: 10,
   },
 
   coreContainer: {
     gap: 5,
     flex:1,
     flexGrow:1,
+    borderBottomLeftRadius: 50,
+    borderBottomRightRadius: 50,
   },
 
   storiesContainer: {

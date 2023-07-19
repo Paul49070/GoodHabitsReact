@@ -7,8 +7,8 @@ export default Badge = ({fillColor, bgColor}) =>
         {
             backgroundBadgeStyle: {
                 position: "absolute", 
-                marginTop: -5, 
-                marginRight: -5,
+                marginTop: -2.5, 
+                marginRight: -2.5,
                 height: 18, 
                 width: 18,
                 right: 0, 

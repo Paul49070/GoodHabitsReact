@@ -8,21 +8,22 @@ export default {
 
     Contrast: "#664efc",
 
-    Primary: "#1a1a24",
-    Secondary: "#232333",
+    Primary: "#f6f6f9",
+    Secondary: "#ffffff",
     Tertiary: "#69738c",
 
     Popup: "#232333",
   },
+
   dark: {
 
     FontGray: "#696969",
     Font: "#fff",
 
-    Contrast: "#664efc",
+    Contrast: "#724ef8",
 
-    Primary: "#1a1a24",
-    Secondary: "#232333",
+    Primary: "#1a1a26",
+    Secondary: "#242333",
     Tertiary: "#69738c",
 
     ShadowColor: "#171717",
