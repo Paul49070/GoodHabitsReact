@@ -4,6 +4,7 @@ import { SubText, SubTitleGrayText, SubTitleText, TitleGrayText, TitleText } fro
 import shadowStyle from "../../styles/StyledShadow";
 import { useThemeColor } from "../Themed";
 import { useState } from "react";
+import { Feather } from "@expo/vector-icons";
 
 import { useNavigation } from "@react-navigation/native";
 import HabitCheckButton from "../Buttons/HabitCompleted.Button";
@@ -17,6 +18,7 @@ import { CircularBarProfil } from "../Profil/CircularBarProfil";
 import { ContributorsHabits } from "../../data/habitudes";
 
 import cardStyle from "../../styles/StyledCard";
+import { IconButton } from "../Buttons/IconButton";
 
 export const HabitudeListItem = ({habit, viewableItems}) => {
 
@@ -24,9 +26,11 @@ export const HabitudeListItem = ({habit, viewableItems}) => {
     const navigation = useNavigation();
     const stylesCard = cardStyle()
 
+    const [doneSteps, setDoneSteps] = useState(habit.doneSteps)
+
     const [isChecked, setIsChecked] = useState(false)
 
-    const isFinished = (habit.state === "done" || habit.state === "skip" || habit.state === "cancel")
+    const isFinished = habit.doneSteps >= habit.totalSteps
 
     const handlePress = () =>
     {
@@ -45,6 +49,14 @@ export const HabitudeListItem = ({habit, viewableItems}) => {
         }
     })
 
+    const handleAddStep = () => {
+        setDoneSteps(doneSteps + 1)
+    }
+
+    const handleRemoveStep = () => {
+        setDoneSteps(doneSteps - 1)
+    }
+
     return(
 
     <TouchableOpacity style={styles.TouchableScreen} onPress={handlePress} accessibilityLabel={habit.titre}>
@@ -59,13 +71,16 @@ export const HabitudeListItem = ({habit, viewableItems}) => {
             rStyle
         ]}>
 
-            <StepCircularBar habit={habit}/>
 
             <View style={styles.habitTitleStateContainer}>
                 {isFinished ? <SubTitleGrayText text={habit.titre}/> : <SubTitleText text={habit.titre}/>}
-                <SubText text="30 min 4 fois par jour"/>
+                <SubText text={30 + " min"}/>
             </View>
 
+            <View style={styles.timeContainer}>
+                <SubText text="18h30"/>
+                <StepCircularBar habit={habit} doneSteps={doneSteps} isFinished={isFinished}/>
+            </View>
 
         </Animated.View>
     </TouchableOpacity>)
@@ -78,8 +93,15 @@ const styles = StyleSheet.create(
             margin: 10,
             gap: 20,
             display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+        },
+
+        timeContainer: {
+            display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "flex-end",
         },
 
         TouchableScreen: {

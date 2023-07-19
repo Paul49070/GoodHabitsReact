@@ -22,7 +22,7 @@ export const ProfilButton = ({onPress}) => {
 
                 </Image>    
 
-                <Badge fillColor={contrast} bgColor={primary}/>
+                <Badge fillColor={contrast} bgColor={secondary}/>
 
             </View>
           </TouchableOpacity>
@@ -35,14 +35,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         resizeMode: 'contain',
         aspectRatio: 1,
-        width: 60,
-        maxHeight: 60,
+        width: "100%",
+        maxHeight: "100%",
         borderRadius: 15,
       },
 
     imageContainerStyle: {
         borderRadius: 15,
-        width: 50, 
-        height: 50
+        width: 60, 
+        height: 60,
+        alignItems: 'center',
+        justifyContent: 'center',
+        
     }
 });

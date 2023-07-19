@@ -1,16 +1,16 @@
 import { StyleSheet, View, Image } from "react-native";
 import { useThemeColor } from "../Themed";
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { useState } from "react";
 import { CircularProgressBase } from 'react-native-circular-progress-indicator';
+import CircularProgress from "react-native-circular-progress-indicator";
 import { NormalText } from "../../styles/StyledText";
+import { Feather } from "@expo/vector-icons";
+export const StepCircularBar = ({ habit, doneSteps, isFinished }) => {
+  const { color, totalSteps, icon } = habit;
 
-export const StepCircularBar = ({ habit }) => {
-  const { color, doneSteps, totalSteps, id, icon } = habit;
+    const strokeWidth = 4
 
-  let pourcentage = (doneSteps * 100) / totalSteps;
-
-  pourcentage = pourcentage < 100 ? pourcentage - 2 : pourcentage
+  const pourcentage = (doneSteps * 100) / totalSteps 
 
   const primary = useThemeColor({}, "Primary");
   const [isLoading, setIsLoading] = useState(true);
@@ -19,51 +19,45 @@ export const StepCircularBar = ({ habit }) => {
     setIsLoading(false);
   };
 
-  const radius = 32; // Rayon du cercle
-  const angleTotal = 2 * Math.PI * radius; // Angle total en radians
+  const radius = 30; // Rayon du cercle
+  const angleTotal = 2 * Math.PI * (radius + 2.5); // Angle total en radians
 
-  // Calcul du width maximal pour que le cercle soit rempli avec count=1
-  const widthMaximal = angleTotal
-
-  let gap;
-    if(totalSteps === 1)
-        gap = 0.5   
-    else if(totalSteps === 2)
-        gap = 0.925
-    else if(totalSteps === 3)
-        gap = 0.95
-    else if(totalSteps === 4)
-        gap = 0.975
-    else gap = 1
+  const circumference = totalSteps === 1 ? angleTotal : angleTotal - angleTotal * 0.025 * totalSteps;
+  const width = (circumference / totalSteps)
 
 
   return (
     <View style={styles.container}>
       <CircularProgressBase
-        value={pourcentage}
-        radius={radius+2}
-        activeStrokeWidth={5}
-        inActiveStrokeWidth={5}
-        activeStrokeColor={pourcentage === 0 ? primary : color}
+        value={pourcentage === 100 ? 100 : pourcentage - 0.5}
+        radius={radius}
+        activeStrokeWidth={strokeWidth}
+        inActiveStrokeWidth={strokeWidth}
+        activeStrokeColor={pourcentage <= 0 ? primary : color}
         inActiveStrokeColor={primary}
-        strokeLinecap="square"
-        rotation={3}
+        strokeLinecap="butt"
+        rotation={2} duration={250}
+        
         dashedStrokeConfig={{
-          count: totalSteps,
-          width: widthMaximal / (gap * totalSteps),
-        }}
+            count: totalSteps,
+            width: width,
+          }}
       >
         <View style={styles.imageContainer}>
-        <Image 
+          {!isFinished && <Image
             onLoadEnd={handleStopLoad}
             style={[
-                styles.imageStyle, 
-                {
-                    backgroundColor: isLoading ? primary : "transparent"
-                }]} source={icon}>
+              styles.imageStyle,
+              {
+                backgroundColor: isLoading ? primary : "transparent",
+              },
+            ]}
+            source={icon}
+          />}
 
-            </Image>
-            </View>
+          {isFinished && <Feather name="check" size={30} color={color}/>}
+
+        </View>
       </CircularProgressBase>
     </View>
   );
@@ -77,20 +71,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
   },
-
   imageContainer: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    flex: 1
+    flex: 1,
   },
-
   imageStyle: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    resizeMode: 'contain',
+    alignSelf: "center",
+    justifyContent: "center",
+    resizeMode: "contain",
     aspectRatio: 1,
-    width: "40%", height: "40%",
-},
+    width: "50%",
+    height: "50%",
+  },
 });

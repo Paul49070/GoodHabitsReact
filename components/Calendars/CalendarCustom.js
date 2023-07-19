@@ -7,9 +7,6 @@ import { useState, useRef, useCallback, useMemo } from "react";
     TouchableOpacity,
   } from 'react-native';
 
-  import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet"
-
-
   import { LittleNormalText, NormalText, SubText, TitleText } from '../../styles/StyledText';
   import { useSharedValue } from "react-native-reanimated"
   import Calendar, { useCalendarContext, onPageChange  } from 'react-native-swipe-calendar';

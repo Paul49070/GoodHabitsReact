@@ -4,7 +4,7 @@ import {SafeAreaView, StyleSheet, View} from 'react-native';
 import { useThemeColor } from '../components/Themed';
 
 import { FlatList } from 'react-native';
-import { SubTitleText, HugeText } from '../styles/StyledText';
+import { SubTitleText, HugeText, SubTitleGrayText } from '../styles/StyledText';
 import { Habitudes } from '../data/habitudes';
 
 import shadowStyle from '../styles/StyledShadow';
@@ -16,6 +16,9 @@ import { useNavigation } from "@react-navigation/native";
 import { HabitudeListItem } from '../components/Habitudes/HabitudeListItem';
 import { useSharedValue } from 'react-native-reanimated';
 import { TextInput } from 'react-native';
+import HomeCalendarCustomWeek from '../components/Calendars/HomeCalendarCustomWeek';
+import CalendarCustom from '../components/Calendars/CalendarCustom';
+import cardStyle from '../styles/StyledCard';
 
 const TabOneScreen = () => {
 
@@ -37,42 +40,60 @@ const TabOneScreen = () => {
     { onViewableItemsChanged },
   ]);
 
-  const numColumns = 1;
+  const numColumns = 2;
 
   const sortedHabits = Habitudes.sort((a, b) => {
-    if (
-      a.state === "done" ||
-      a.state === "skip" ||
-      a.state === "cancel"
-    ) {
+    if (a.doneSteps >= a.totalSteps) 
+    {
       return 1; // Place l'habitude à la fin si elle satisfait la condition
-    } else {
+    } 
+    else {
       return -1; // Garde l'habitude à sa position actuelle si elle ne satisfait pas la condition
     }
   });
 
+  const [currentEndDate, setCurrentEndDate] = useState(new Date())
+
+  const [currentDate, setCurrentDate] = useState(new Date())
+  const currentDateMonth = currentDate.toLocaleDateString("fr", {month: "long"})
+  const currentDateDayMonth = currentDate.getDate() + " " + currentDate.toLocaleDateString("fr", {month: "short"})
+  const stylesCard = cardStyle()
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1,backgroundColor: secondary }}>
       <BottomSheetModalProvider>
-        <View style={[styles.container, {backgroundColor: primary}]}>
-            <View style={
-                [
-                  shadowStyle,
-                  styles.headerContainer,
-                
-                ]
-                }>
+        <View style={[styles.container, stylesCard.shadow]}>
+            
+            <View style={[styles.headerParentContainer, {backgroundColor:primary}]}>
+            <View style={[styles.headerContainer, {backgroundColor:secondary}]}>
+              <View style={
+                  [
+                    styles.ProfilContainer,
+                  ]
+                  }>
+                    <View style={{display:"flex", flexDirection: "column", justifyContent: "center"}}>
+                      <HugeText text={currentDateDayMonth}/>  
+                      <SubTitleGrayText text="2023"/>  
+                    </View> 
 
-                  <HugeText text="Salut Paul !"/>  
-                  <ProfilButton onPress={handleOpenProfilDetails}/>
+                    <View style={{alignItems: "center", justifyContent:"center", display:"flex"}}>
+                      <ProfilButton onPress={handleOpenProfilDetails}/>
+                    </View>
 
+              </View>
+
+              <View style={{paddingVertical:0}}>
+                <HomeCalendarCustomWeek selectedDate={currentDate} setSelectedDate={setCurrentDate}/>
+              </View>
+              </View>
             </View>
 
             
-            <View style={[styles.coreContainer]}>
+            <View style={[styles.coreContainer, {margin:-30, marginBottom:0, padding:30, paddingVertical: 15, backgroundColor: primary}]}>
 
-              <View style={{display: "flex", flexDirection: "row", alignItems:"center", justifyContent: "space-between"}}>
-                <SubTitleText text="Aujourd'hui :"/>
+                
+              <View style={{display: "flex", flexDirection: "row", alignItems:"center", justifyContent: "space-between", marginVertical: 10}}>
+                <SubTitleText text={"Plan du jour :"}/>
               </View>
 
 
@@ -86,7 +107,7 @@ const TabOneScreen = () => {
               return <HabitudeListItem habit={item} viewableItems={viewableItems}/>
                 }
               }
-
+              contentContainerStyle={{paddingBottom: 30}}
             showsVerticalScrollIndicator={false}
             style={styles.HabitsList} key={numColumns}
             data={sortedHabits} numColumns={numColumns} 
@@ -103,10 +124,26 @@ const TabOneScreen = () => {
 const styles = StyleSheet.create({
 
   headerContainer: {
+    margin: -30, 
+    marginBottom:0, 
+    paddingHorizontal: 30, 
+    paddingVertical:15,
+    borderBottomLeftRadius: 40, 
+    borderBottomRightRadius: 40, 
+  },
+
+  headerParentContainer: {
+    margin: -30, 
+    marginBottom:0, 
+    padding: 30, 
+
+  },
+
+  ProfilContainer: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+  
   },
 
   HabitsList:{
@@ -114,7 +151,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     display: "flex",
     margin: -15,
-    marginTop: 0,
+    marginTop: 0
   },
 
   coreContainer: {
@@ -136,8 +173,8 @@ const styles = StyleSheet.create({
     padding: 30,
     paddingBottom: 0,
     flex:1,
-    gap: 20,
-    display: "flex"
+    gap: 0,
+    display: "flex", 
   },
 });
 

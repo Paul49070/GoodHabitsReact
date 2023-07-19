@@ -8,14 +8,29 @@ const cardStyle = () => {
 
   return StyleSheet.create({
     card: {
-      borderRadius: 35,
+      borderRadius: 25,
       backgroundColor: secondary,
       padding: 20,
 
       shadowColor: shadowColor,
-      shadowOffset: { width: -2, height: 4 },
-      shadowOpacity: 0.4,
-      shadowRadius: 3,
+      shadowOffset: {
+        width: 0,
+        height: 11,
+      },
+      shadowOpacity:  0.23,
+      shadowRadius: 11.78,
+      elevation: 15
+    },
+
+    shadow : {
+      shadowColor: "red",
+      shadowOffset: {
+        width: 0,
+        height: 5090,
+      },
+      shadowOpacity:  1,
+      shadowRadius: 11.78,
+      elevation: 150
     },
   });
 };
