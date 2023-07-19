@@ -42,7 +42,7 @@ const TabOneScreen = () => {
     { onViewableItemsChanged },
   ]);
 
-  const numColumns = 1;
+  const numColumns = 2;
 
   const sortedHabits = Habitudes.sort((a, b) => {
     if (a.doneSteps >= a.totalSteps) 
@@ -110,7 +110,6 @@ const TabOneScreen = () => {
               return <HabitudeListItem habit={item} viewableItems={viewableItems} index={item.index}/>
                 }
               }
-              contentContainerStyle={{}}
             showsVerticalScrollIndicator={false}
             style={styles.HabitsList} key={numColumns}
             data={sortedHabits} numColumns={numColumns} 
@@ -154,7 +153,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     display: "flex",
     margin: -15,
-    marginLeft: -45,
     marginTop: 0, marginBottom: 10,
   },
 

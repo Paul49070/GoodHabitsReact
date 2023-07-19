@@ -18,6 +18,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SimpleButtonBackground } from "../Buttons/UsualButton";
 import { TouchableHighlight } from "react-native";
+import HabitState from "./HabitState";
 
 
 export const HabitudeListItem = ({habit, viewableItems}) => {
@@ -49,36 +50,9 @@ export const HabitudeListItem = ({habit, viewableItems}) => {
         }
     })
 
-    const handleAddStep = () => {
-        setDoneSteps(doneSteps + 1)
-    }
-
-    const handleRemoveStep = () => {
-        setDoneSteps(doneSteps - 1)
-    }
-
-    const renderRightActions = (dragX) => {
-        const trans = dragX.interpolate({
-            inputRange: [0, 50, 100, 101],
-            outputRange: [-20, 0, 0, 1],
-          });
-
-        return(
-            <View style={{marginVertical: 10, marginRight:15, display: "flex", flexDirection:"row", gap:10}}>
-                <SimpleButtonBackground onPress={() => {}} backgroundColor={"#2494ea"}>
-                <Feather name="trending-up" size={24} color="white" />                
-                </SimpleButtonBackground>
-                <SimpleButtonBackground onPress={() => {}} backgroundColor={"#fe4d5f"}>
-                    <Feather name="trash-2" size={24} color="white" />                
-                </SimpleButtonBackground>
-            </View>
-        )
-    }
-
     return(
-    <Swipeable overshootRight={false} rightThreshold={0}
-        renderRightActions={(progess, dragX) => renderRightActions(dragX)}>
-            <TouchableOpacity accessibilityLabel={habit.id} onPress={handlePress}>
+
+            <TouchableOpacity accessibilityLabel={habit.id} onPress={handlePress} style={{flex: 1}}>
                 <Animated.View 
                 style={
                 [
@@ -90,44 +64,30 @@ export const HabitudeListItem = ({habit, viewableItems}) => {
                     rStyle
                 ]}>
 
-                    <View>
-                        <StepCircularBar habit={habit} doneSteps={doneSteps} isFinished={isFinished}/>
-                    </View>
-
                     <View style={styles.habitTitleStateContainer}>
                         {isFinished ? <SubTitleGrayText text={habit.titre}/> : <SubTitleText text={habit.titre}/>}
-                        <SubText text={"Tout les 3 jours"}/>
+                        <SubText text={"500ml"}/>
                     </View>
 
-                    <View style={styles.timeContainer}>
-                        <Clock minutes={"18h30"} isFinished={true}/>
+                    <View style={{display: "flex", flexDirection:"row", justifyContent: "space-between", alignItems: "flex-end"}}>
+                        
+                        <HabitState state={habit.state}/>
+                        <StepCircularBar habit={habit} doneSteps={doneSteps} isFinished={isFinished}/>
                     </View>
 
                 </Animated.View>
             </TouchableOpacity>
-    </Swipeable>
 )};
 
 const styles = StyleSheet.create(
     {    
         habit: {
             flex: 1,
-            margin: 10, marginLeft: 40,
+            margin: 10,
             gap: 20,
             display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-        },
-
-        timeContainer: {
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "flex-end",
-        },
-
-        TouchableScreen: {
-            flex: 1,
+            flexDirection: "column",
+            justifyContent: "center"
         },
 
         footerhabit: {

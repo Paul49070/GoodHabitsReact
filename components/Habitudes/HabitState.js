@@ -36,7 +36,6 @@ const HabitState = ({state}) => {
   return (
     <View style={styles.habitStateContainer}>
         {icon}
-        <Text style={{color: color}}>{text}</Text>
     </View>
   )
 }
