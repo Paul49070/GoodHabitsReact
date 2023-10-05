@@ -1,28 +1,33 @@
 
-import React, { useState, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import { useThemeColor } from '../components/Themed';
 
 import { FlatList } from 'react-native';
-import { SubTitleText, HugeText, SubTitleGrayText } from '../styles/StyledText';
+import { SubTitleText, HugeText, SubTitleGrayText, NormalText } from '../styles/StyledText';
 import { Habitudes, Friends } from '../data/habitudes';
 
-import shadowStyle from '../styles/StyledShadow';
 
-
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import { ProfilButton } from '../components/Profil/ProfilButton';
 
 import { useNavigation } from "@react-navigation/native";
 import { HabitudeListItem } from '../components/Habitudes/HabitudeListItem';
 import { useSharedValue } from 'react-native-reanimated';
-import { TextInput } from 'react-native';
 import HomeCalendarCustomWeek from '../components/Calendars/HomeCalendarCustomWeek';
-import CalendarCustom from '../components/Calendars/CalendarCustom';
 import cardStyle from '../styles/StyledCard';
 import viewStyle from '../styles/StyledView';
+import { BackgroundView, MainView, TopScreenView } from '../components/View/Views';
+import { SimpleButton } from '../components/Buttons/UsualButton';
 
-const TabOneScreen = () => {
+import { setDoc, doc, addDoc, collection } from 'firebase/firestore';
+import { db } from '../firebase/InitialisationFirebase';
+import { addHabit, addHabits, getAllOwnHabits } from '../firebase/FirestorePrimitives';
+import { HabitsContext } from '../data/HabitContext';
+import { useContext } from 'react';
+
+const HomeScreen = () => {
+
+  const { Habits } = useContext(HabitsContext);
 
   const primary = useThemeColor({}, "Primary")
   const secondary = useThemeColor({}, "Secondary")
@@ -32,25 +37,16 @@ const TabOneScreen = () => {
     navigation.navigate("ProfilDetailsScreen");
   }, []);
 
-  const viewableItems = useSharedValue([]);
-
-  const onViewableItemsChanged = ({viewableItems: vItems}) => {
-    viewableItems.value = vItems
-  }
-
-  const viewabilityConfigCallbackPairs = useRef([
-    { onViewableItemsChanged },
-  ]);
 
   const numColumns = 1;
 
   const sortedHabits = Habitudes.sort((a, b) => {
     if (a.doneSteps >= a.totalSteps) 
     {
-      return 1; // Place l'habitude à la fin si elle satisfait la condition
+      return 1; 
     } 
     else {
-      return -1; // Garde l'habitude à sa position actuelle si elle ne satisfait pas la condition
+      return -1; 
     }
   });
 
@@ -62,14 +58,24 @@ const TabOneScreen = () => {
   const stylesCard = cardStyle()
   const stylesView = viewStyle()
 
+  const [habitudes, setHabitudes] = useState([]);
+
+  /*useEffect(() => {
+
+    const fetchHabitudes = async () => {
+      const habitsData = await getHabitudes();
+      setHabitudes(habitsData);
+      console.log(habitudes, "habitudes")
+    };
+
+    fetchHabitudes();
+  }, []);*/
+
+
   return (
-    <SafeAreaView style={{ flex: 1,backgroundColor: secondary }}>
-      <BottomSheetModalProvider>
-        <View style={[styles.container]}>
-            
-            <View style={[styles.headerParentContainer, {backgroundColor:primary}]}>
-            <View style={[styles.headerContainer, {backgroundColor:secondary}]}>
-              <View style={
+   <MainView>
+          <TopScreenView>
+                <View style={
                   [
                     styles.ProfilContainer,
                   ]
@@ -88,12 +94,16 @@ const TabOneScreen = () => {
               <View style={{paddingVertical:0}}>
                 <HomeCalendarCustomWeek selectedDate={currentDate} setSelectedDate={setCurrentDate}/>
               </View>
-              </View>
-            </View>
+              
+              {/*<View style={{display: "flex", alignItems: "center", justifyContent: "center", margin: 20}}>
+                <SimpleButton onClick={handleTestFireStore}>
+                  <NormalText text="testFirestore"/>
+                </SimpleButton>
+              </View>*/}
+            </TopScreenView>
 
             
-            <View style={stylesView.backgroundView}>
-
+            <BackgroundView>
                 
               <View style={{display: "flex", flexDirection: "row", alignItems:"center", justifyContent: "space-between", marginVertical: 10}}>
                 <SubTitleText text={"Plan du jour :"}/>
@@ -102,25 +112,20 @@ const TabOneScreen = () => {
 
             <FlatList 
 
-            viewabilityConfigCallbackPairs={
-              viewabilityConfigCallbackPairs.current
+
+            renderItem={({item, index}) => {
+
+              return <HabitudeListItem index={index}/>}
             }
 
-            renderItem={({item}) => {
-              return <HabitudeListItem habit={item} viewableItems={viewableItems} index={item.index}/>
-                }
-              }
-              contentContainerStyle={{}}
+            contentContainerStyle={{paddingBottom: 20}}
             showsVerticalScrollIndicator={false}
             style={styles.HabitsList} key={numColumns}
-            data={sortedHabits} numColumns={numColumns} 
-            keyExtractor={item => item.id}/>
+            data={Habits} numColumns={numColumns}
+            keyExtractor={(item) => item.habitID}/>
 
-          </View>
-        </View>
-
-        </BottomSheetModalProvider>
-    </SafeAreaView>
+          </BackgroundView>
+    </MainView>
   );
 };
 
@@ -155,7 +160,7 @@ const styles = StyleSheet.create({
     display: "flex",
     margin: -15,
     marginLeft: -45,
-    marginTop: 0, marginBottom: 10,
+    marginTop: 0,
   },
 
   coreContainer: {
@@ -184,4 +189,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabOneScreen;
+export default HomeScreen;

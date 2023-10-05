@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { useThemeColor } from "../components/Themed";
+import { useThemeColor } from '../components/Themed';
 
 const viewStyle = () => {
   const primary = useThemeColor({}, "Primary")

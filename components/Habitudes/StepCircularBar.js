@@ -5,21 +5,35 @@ import { CircularProgressBase } from 'react-native-circular-progress-indicator';
 import CircularProgress from "react-native-circular-progress-indicator";
 import { NormalText } from "../../styles/StyledText";
 import { Feather } from "@expo/vector-icons";
-export const StepCircularBar = ({ habit, doneSteps, isFinished }) => {
-  const { color, totalSteps, icon } = habit;
+import HabitIcons from "../../data/HabitIcons";
 
-    const strokeWidth = 4
+export const StepCircularBar = ({ habit, isFinished, tall, otherImage, secondaryInactiveColor }) => {
+
+
+  const { color, doneSteps } = habit;
+
+  const totalSteps = habit.steps.length
+
+  const imageToDisplay = otherImage ? otherImage : HabitIcons[habit.icon]
+
+  const isGiant = tall ? true : false
+
+  const strokeWidth = 4
 
   const pourcentage = (doneSteps * 100) / totalSteps 
 
   const primary = useThemeColor({}, "Primary");
+  const secondary = useThemeColor({}, "Secondary");
+
+  const inActiveColor = secondaryInactiveColor ? secondary : primary 
+
   const [isLoading, setIsLoading] = useState(true);
 
   const handleStopLoad = () => {
     setIsLoading(false);
   };
 
-  const radius = 28; // Rayon du cercle
+  const radius = isGiant ? 40 : 28; // Rayon du cercle
   const angleTotal = 2 * Math.PI * (radius + 2.5); // Angle total en radians
 
   const circumference = totalSteps === 1 ? angleTotal : angleTotal - angleTotal * 0.025 * totalSteps;
@@ -34,7 +48,7 @@ export const StepCircularBar = ({ habit, doneSteps, isFinished }) => {
         activeStrokeWidth={strokeWidth}
         inActiveStrokeWidth={strokeWidth}
         activeStrokeColor={pourcentage <= 0 ? primary : color}
-        inActiveStrokeColor={primary}
+        inActiveStrokeColor={inActiveColor}
         strokeLinecap="butt"
         rotation={2} duration={250}
         
@@ -52,7 +66,7 @@ export const StepCircularBar = ({ habit, doneSteps, isFinished }) => {
                 backgroundColor: isLoading ? primary : "transparent",
               },
             ]}
-            source={icon}
+            source={imageToDisplay}
           />}
 
           {isFinished && <Feather name="check" size={30} color={color}/>}

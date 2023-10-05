@@ -13,6 +13,11 @@ import { SafeAreaView } from "react-native"
 import { SimpleIconButton } from "../components/Buttons/IconButton"
 import AchievementsScreen from "./BottomScreens/AchievementsScreen"
 import { useNavigation } from "@react-navigation/native"
+import { CircleBorderButton, GoBackButton } from "../components/Buttons/UsualButton"
+import { TitleText } from "../styles/StyledText"
+import { BackgroundView, MainView, TopScreenView } from "../components/View/Views"
+import GroupedAchievements from "../components/Achievements/GroupedAchievements"
+import { ScrollView } from "react-native-gesture-handler"
  
 
 const MultipleAchievementScreen = () => {
@@ -20,6 +25,7 @@ const MultipleAchievementScreen = () => {
     const fontGray = useThemeColor({}, "FontGray")
     const primary = useThemeColor({}, "Primary")
     const secondary = useThemeColor({}, "Secondary")
+    const font = useThemeColor({}, "Font")
 
     const [clickedAchievement, setClickedAchievement] = useState({})
 
@@ -40,53 +46,60 @@ const MultipleAchievementScreen = () => {
         console.log("handleSheetChange", index)
     }, []);
 
-    const renderContributors = ({item}) => {
-      return(
-        <View style={{width: "33%", padding: 10}}>
-          
-          <AchievementBox titre={item.nom} description={item.description} image={item.image} isAchieved={item.isAchieved} 
-          onPress={() => 
-          {
-            setClickedAchievement(
-              {
-                titre: item.nom,
-                description: item.description,
-                image: item.image,
-                isAchieved: item.isAchieved
-              });
-              
-              handleOpenAchievements(item);
-          }}/>        
-        </View>
-      )
-    }
+    const groupAchievementsByClass = (achievements) => {
+      return achievements.reduce((result, achievement) => {
+        const classKey = achievement.class || "Autre"; // Use "Autre" as default class if class is not provided
+        if (!result[classKey]) {
+          result[classKey] = [];
+        }
+        result[classKey].push(achievement);
+        return result;
+      }, {});
+    };
 
+
+    const groupedAchievements = groupAchievementsByClass(Achievements)
   
     // renders
     return(
       <BottomSheetModalProvider>
-        <SafeAreaView style={{ flex: 1}}>
-            <View style={{backgroundColor: primary, display:"flex", flex:1, padding: 15}}>
-                <View style={{display: "flex", flexDirection: "row", alignItems:"center"}}>
+        <MainView>
+          <TopScreenView>
+              <View style={{display: "flex", flexDirection: "row", alignItems:"center", justifyContent: "space-between", marginBottom: 15, marginTop: -10}}>
 
-                    <SimpleIconButton onClick={() => handleBack()}>
-                      <Feather name="chevron-left" size={20} color={fontGray} />                
-                    </SimpleIconButton>
+                <GoBackButton/>
 
-                          {/*<SimpleIconButton onClick={() => handleOpenShareBottomSheet()}>
-                              <Feather name="settings" size={20} color={fontGray} />                    
-                            </SimpleIconButton>*/}
+                <TitleText text="Succès"/>
 
-                </View>
+                <CircleBorderButton onPress={() => {}}>
+                    <Feather name="more-horizontal" size={20} color={font} />                                
+                </CircleBorderButton>
 
-                <View style={{ gap: 20, flex:1, alignItems: "center", }}>
-                  <FlatList 
-                      renderItem={renderContributors}
-                      style={styles.HabitsList} key={2}
-                      data={Achievements} numColumns={3} 
-                      keyExtractor={item => item.description}
-                    />
-                </View>
+              </View>
+            
+          </TopScreenView>
+
+          <BackgroundView>
+                <ScrollView style={{marginHorizontal: -15, padding: 15}}>
+                  <View style={{ gap: 20, flex:1, display: "flex", flexDirection: "column" }}>
+
+                    {
+
+                      Object.entries(groupedAchievements).map(([className, achievements]) => {
+                        
+                        return(
+                          <GroupedAchievements 
+                            achievementsList={achievements} 
+                            className={className} 
+                            handleOpenAchievements={handleOpenAchievements} 
+                            setClickedAchievement={setClickedAchievement}/>
+                        )
+
+                      })
+                    }
+
+                  </View>
+                </ScrollView>
 
                 <AchievementsScreen
                     bottomSheetModalRef={bottomSheetModalRef} 
@@ -94,9 +107,9 @@ const MultipleAchievementScreen = () => {
                     handleSheetChanges={handleSheetChanges}
                     achievement={clickedAchievement}
                     />
-            </View>
-
-        </SafeAreaView>
+            </BackgroundView>
+          
+        </MainView>
       </BottomSheetModalProvider>
     );
   };

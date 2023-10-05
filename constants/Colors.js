@@ -13,6 +13,8 @@ export default {
     Tertiary: "#69738c",
 
     Popup: "#232333",
+
+    Error: "#CF6679",
   },
 
   dark: {
@@ -20,14 +22,16 @@ export default {
     FontGray: "#696969",
     Font: "#fff",
 
-    Contrast: "#724ef8",
+    Contrast: "#6B46CA",
 
-    Primary: "#1a1a26",
-    Secondary: "#242333",
+    Primary: "#000000",
+    Secondary: "#141414",
     Tertiary: "#69738c",
 
     ShadowColor: "#171717",
 
-    Popup: "#1a1a24",
+    Popup: "#0E0E0E",
+
+    Error: "#851405",
   },
 };
