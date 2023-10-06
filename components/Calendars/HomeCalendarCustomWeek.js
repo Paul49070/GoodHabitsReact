@@ -87,14 +87,25 @@ while (cancelDate.length < 16) {
 
     const primary = useThemeColor({}, 'Primary');
     const secondary = useThemeColor({}, 'Secondary');
+    const font = useThemeColor({}, 'Font');
     const contrast = useThemeColor({}, 'Contrast');
     const dayName = date.toLocaleDateString("fr", { weekday: 'long' }).substring(0,1)       
     const dayNumber = date.getDate() 
 
     const backgroundColor = isSelected ? contrast :  "transparent"
-    const borderColor = isSelected ? contrast :  (isToday ? contrast : "transparent")
+    const borderColor = isSelected ? contrast :  (isToday ? font : "transparent")
 
-    const stateDayColor = isSuccessDate ? "#39BF5C" : (isLittleSuccess ? "#ceba5b" : (isCancel ? "#bc3b40" : (isSelected ? "white" : "transparent")))
+    const stateDayColor = isSuccessDate
+    ? "#39BF5C"
+    : isLittleSuccess
+    ? "#ceba5b"
+    : isCancel
+    ? "#bc3b40"
+    : isSelected
+    ? contrast
+    : isToday
+    ? font
+    : "transparent";
 
     const ctx = useCalendarContext();
 
@@ -108,7 +119,6 @@ while (cancelDate.length < 16) {
           [
             styles.dayContainerStyle,
             {
-              backgroundColor: backgroundColor,
               borderColor: borderColor,
               borderWidth: 2,
             }

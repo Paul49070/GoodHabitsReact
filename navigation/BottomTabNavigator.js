@@ -5,20 +5,26 @@ import { AntDesign, Entypo, Feather, Octicons, MaterialCommunityIcons } from '@e
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useColorScheme } from "react-native";
+import { TouchableOpacity, View, useColorScheme } from "react-native";
 
 import Colors from "../constants/Colors";
-import TabOneScreen from "../screens/TabOneScreen";
 import HabitudeScreen from "../screens/HabitudeScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
-import {ContrastRoundButton, IconButton} from "../components/Buttons/IconButton";
+import {BottomNavigationButtonAdd, ContrastRoundButton, IconButton} from "../components/Buttons/IconButton";
 
 import { useThemeColor } from "../components/Themed";
 import DayDetailScreen from "../screens/DayDetailScreen";
-import ProfilDetailsScreen from "../screens/ProfilDetailsScreen";
+import ProfilDetailsScreen from "../screens/ProfilScreens/ProfilDetailsScreen";
 import MultipleAchievementScreen from "../screens/MultipleAchievementScreen";
-import { useNavigation } from "@react-navigation/native";
+import { getFocusedRouteNameFromRoute, useNavigation } from "@react-navigation/native";
 import NewsScreen from "../screens/NewsScreen";
+import HomeScreen from "../screens/HomeScreen";
+import { StatProfilScreen } from "../screens/ProfilScreens/StatsProfilScreen";
+import { AddScreen } from "../screens/AddScreen/AddScreen";
+import CreateHabitDetails from "../screens/AddScreen/CreateHabitDetails";
+import { ChooseIconScreen } from "../screens/AddScreen/ChooseIconScreen";
+import ValidationScreenHabit from "../screens/AddScreen/ValidationScreenHabit";
+import { ChooseColorScreen } from "../screens/AddScreen/ChooseColorScreen";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -31,85 +37,82 @@ export default function BottomTabNavigator() {
   const navigation = useNavigation()
 
   const handleNavigateToAdd = () => {
-    navigation.navigate("")
+    navigation.navigate("AddScreen")
   }
+
 
   return (
 
     
     <BottomTab.Navigator
-      initialRouteName="Profil"
-      screenOptions={{ tabBarActiveTintColor: contrast, 
-      headerShown: false,
-      tabBarStyle: {
-        backgroundColor: secondary, borderWidth: 0,
-        display: "flex",
-        justifyContent: "center",
-        alignItems:"center",
-      } }}>
+      initialRouteName="HomeScreen"
+      screenOptions={{
 
-    <BottomTab.Screen
-            name="Profil"
-            component={TabOneNavigator}
-            options={{
+        tabBarActiveTintColor: contrast,
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: secondary,
+          borderWidth: 0,
+          paddingHorizontal: 15,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        },
+        // Use the getTabBarVisible function here within the screenOptions
+        tabBarHideOnKeyboard: false,
+
+      }}
+    >
+
+        <BottomTab.Screen
+            name="Home"
+            component={HomeNavigator}
+
+
+            options={({ route }) => ({
               headerShown: false,
               tabBarIcon: ({ color }) => (
                 <AntDesignIcon name="user" color={color} />
               ),
-              tabBarLabel: () => null
+              tabBarLabel: () => null,
+              tabBarStyle: ((route) => {
+                const routeName = getFocusedRouteNameFromRoute(route) ?? "HomeScreen"
 
-            }}
+                console.log(routeName + " route")
+
+                if (routeName !== 'HomeScreen') {
+                  return { display: "none" }
+                }
+                return {
+                  backgroundColor: secondary,
+                  borderWidth: 0,
+                  paddingHorizontal: 15,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }
+              })(route),
+            })}
           />
-
-      <BottomTab.Screen
-        name="News"
-        component={NewsScreenNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-                <MaterialIcon name="sticker-text-outline" color={color}/>
-          ),
-
-          tabBarLabel: () => null
-
-        }}
-      />
-
       
         <BottomTab.Screen
           name="Add"
-          component={TabTwoNavigator}
+          component={AddScreenNavigator}
           options={{
-            tabBarIcon: ({ color }) => (
-              <ContrastRoundButton onClick={handleNavigateToAdd}>
-                <Feather name="plus" size={24} color="white"/>             
-              </ContrastRoundButton>
-            ),
-            tabBarLabel: () => null
+
+            tabBarLabel: () => null,
+            tabBarButton: AddButton
+            
           }}
         />
 
       <BottomTab.Screen
-        name="Stats"
-        component={TabTwoNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Feather name="pie-chart" size={20} color={color} />          
-          ),
-          tabBarLabel: () => null
-
-
-        }}
-      />
-
-      <BottomTab.Screen
         name="Notifs"
-        component={TabTwoNavigator}
+        component={NewsScreenNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <AntDesignIcon name="staro" color={color} />          
+            <FeatherIcon name="users" color={color} />          
           ),
 
           tabBarLabel: () => null
@@ -124,77 +127,123 @@ export default function BottomTabNavigator() {
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
 function MaterialIcon(props) {
-  return <MaterialCommunityIcons size={20} {...props} />;
+  return <MaterialCommunityIcons size={24} {...props} />;
+}
+
+function AddButton(props) {
+
+  const contrast = useThemeColor({}, "Contrast")
+
+  return(
+    <TouchableOpacity style={{position: "absolute"}} {...props}>
+      <View onPress={() => {}} style={{ backgroundColor: contrast, position: "absolute", padding: 20, borderRadius: 50}}>
+          <Feather name="plus" size={24} color="white"/>             
+      </View>
+    </TouchableOpacity>
+  )
 }
 
 function AntDesignIcon(props) {
-  return <AntDesign size={20} {...props} />;
+  return <AntDesign size={24} {...props} />;
+}
+
+function FeatherIcon(props) {
+  return <Feather size={24} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator();
+const HomeStack = createStackNavigator();
 
-function TabOneNavigator() {
+function HomeNavigator() {
   return (
-    <TabOneStack.Navigator screenOptions={{ headerShown: false }}>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: "Accueil" }}
+    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+      <HomeStack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{ headerShown: false, tabBarVisible: true }}
       />
 
-      <TabOneStack.Screen
+      <HomeStack.Screen
         name="HabitudeScreen"
-        component={HabitudeScreen}
-        options={
-          ({ route }) => ({ 
-            title: route.params.titre,
-            color: route.params.couleur,
-            percent: route.params.pourcentage,
-          })
-          }
+        component={HabitudeScreen} 
+        options={({ route }) => ({
+          habit: route.params.habit,
+          tabBarVisible: false, // Hide the bottom navigation bar on this screen
+        })}
       />
 
-      <TabOneStack.Screen
+      <HomeStack.Screen
         name="DayDetailScreen"
         component={DayDetailScreen}
-        options={
-          ({ route }) => ({ 
-            habitude: route.params.habitude,
-            date: route.params.date,
-          })
-          }
+        options={({ route }) => ({ 
+          habitude: route.params.habitude,
+          date: route.params.date,
+          tabBarVisible: false, // Show the bottom navigation bar on this screen
+        })}
       />
 
-      <TabOneStack.Screen
+      <HomeStack.Screen
         name="ProfilDetailsScreen"
         component={ProfilDetailsScreen}
-        options={{ headerTitle: "Profil Details" }}
-
+        options={{ headerTitle: "Profil Details", tabBarVisible: true }} // Show the bottom navigation bar on this screen
       />
 
-      <TabOneStack.Screen
+      <HomeStack.Screen
         name="MultipleAchievementScreen"
         component={MultipleAchievementScreen}
-        options={{ headerTitle: "AllAchievementScreen" }}
-
+        options={{ headerTitle: "AllAchievementScreen", tabBarVisible: true }} // Show the bottom navigation bar on this screen
       />
-    </TabOneStack.Navigator>
+
+      <HomeStack.Screen
+        name="StatProfilScreen"
+        component={StatProfilScreen}
+        options={{ headerTitle: "StatProfilScreen", tabBarVisible: true }} // Show the bottom navigation bar on this screen
+      />
+    </HomeStack.Navigator>
   );
 }
 
-const TabTwoStack = createStackNavigator();
 
-function TabTwoNavigator() {
+
+const AddScreenStack = createStackNavigator();
+
+function AddScreenNavigator() {
   return (
-    <TabTwoStack.Navigator screenOptions={{ headerShown: false }}>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: "Menu" }}
-      />   
-    </TabTwoStack.Navigator>
+    <AddScreenStack.Navigator screenOptions={{ headerShown: false }}>
+        <AddScreenStack.Screen
+          name="AddScreen"
+          component={AddScreen}
+          options={{ headerTitle: "AddScreen" }}
+        />   
+
+        <AddScreenStack.Screen
+          name="CreateHabitDetails"
+          component={CreateHabitDetails}
+          options={{ headerTitle: "CreateHabitDetails" }}
+        />   
+
+        <AddScreenStack.Screen
+          name="ChooseIconScreen"
+          component={ChooseIconScreen}
+          options={{ headerTitle: "ChooseIconScreen" }}
+        />   
+
+      <AddScreenStack.Screen
+          name="ChooseColorScreen"
+          component={ChooseColorScreen}
+          options={{ headerTitle: "ChooseColorScreen" }}
+        />   
+
+      <AddScreenStack.Screen
+          name="ValidationScreenHabit"
+          component={ValidationScreenHabit}
+          options={{ headerTitle: "ValidationScreenHabit" }}
+        />   
+
+    </AddScreenStack.Navigator>
+
+    
   );
 }
 

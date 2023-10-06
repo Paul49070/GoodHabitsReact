@@ -9,6 +9,10 @@ import { useColorScheme } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from "react";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
+import { useEffect } from "react";
+import { HabitsContext, HabitsProvider } from "./data/HabitContext";
+import { useContext } from "react";
 
 
 SplashScreen.preventAutoHideAsync();
@@ -22,7 +26,6 @@ export default function App() {
     "poppinsSemiBold": require("./assets/fonts/Poppins-SemiBold.ttf"),
     "poppinsBold": require("./assets/fonts/Poppins-Bold.ttf"),
   });
-  
 
   const handleOnLayout = useCallback(async () => {
     if (isLoaded) {
@@ -35,9 +38,13 @@ export default function App() {
   }
 
   return (
-      <SafeAreaProvider onLayout={handleOnLayout}>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
+    <HabitsProvider>
+        <BottomSheetModalProvider>
+            <SafeAreaProvider onLayout={handleOnLayout}>
+              <Navigation colorScheme={colorScheme} />
+              <StatusBar />
+            </SafeAreaProvider>
+        </BottomSheetModalProvider>
+    </HabitsProvider>
     );
 }

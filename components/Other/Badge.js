@@ -1,16 +1,16 @@
 import { View, StyleSheet } from "react-native"
 
-export default Badge = ({fillColor, bgColor}) =>
+export default Badge = ({huge, fillColor, bgColor}) =>
 {
 
     const styles = StyleSheet.create(
         {
             backgroundBadgeStyle: {
                 position: "absolute", 
-                marginTop: -2.5, 
-                marginRight: -2.5,
-                height: 18, 
-                width: 18,
+                marginTop: huge ? 0 : -2.5, 
+                marginRight: huge ? 0 :-2.5,
+                height: huge ? 25 : 18, 
+                width: huge ? 25 :18,
                 right: 0, 
                 top: 0, 
                 borderRadius: 20, 
@@ -20,8 +20,8 @@ export default Badge = ({fillColor, bgColor}) =>
             },
 
             badgeStyle: {
-                height: 10,
-                width: 10,
+                height: huge ? 15 : 10,
+                width: huge ? 15 : 10,
                 borderRadius: 20
             }
         }

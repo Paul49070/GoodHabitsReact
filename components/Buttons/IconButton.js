@@ -1,11 +1,11 @@
 import { Pressable, StyleSheet, TouchableOpacity } from "react-native"
 import { useThemeColor } from "../Themed"
+import { View } from "react-native";
+import { TouchableWithoutFeedback } from "react-native";
 
 export const IconButton = (props) =>
 {
     const secondary = useThemeColor({}, "Secondary");
-
-
 
     return(
         <TouchableOpacity onPress={props.onClick}
@@ -42,6 +42,18 @@ export const ContrastRoundButton = (props) =>
     </TouchableOpacity>);
 }
 
+export const BottomNavigationButtonAdd = ({ children }) => {
+    const contrast = useThemeColor({}, "Contrast");
+  
+    return (
+        <View style={styles.BottomNavigationButtonAdd}>
+            <TouchableOpacity onPress={null} style={{ backgroundColor: contrast, padding: 20, borderRadius: 50}} >
+                {children}
+            </TouchableOpacity>
+        </View>
+    );
+  };
+
 const styles = StyleSheet.create(
     {
         IconButton: {
@@ -49,11 +61,10 @@ const styles = StyleSheet.create(
             padding: 8,
         },
 
-        ContrastRoundButton: {
-            borderRadius: 50,
-            padding: 15,
+        BottomNavigationButtonAdd: {
             position: "absolute",
-            bottom: 5,
+            bottom: 0,
         }
+        
     }
 )

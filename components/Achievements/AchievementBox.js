@@ -1,12 +1,13 @@
 import { Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useRef, useMemo, useCallback } from "react";
 import { useThemeColor } from "../Themed";
-import { NormalText, SubText, SubTitleText, TitleText } from "../../styles/StyledText";
+import { LittleNormalText, NormalText, SubText, SubTitleText, TitleText } from "../../styles/StyledText";
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
-export const AchievementBox = ({ titre, image, description, isAchieved, onPress, whiteText }) => {
+export const AchievementBox = ({ titre, image, description, isAchieved, onPress, whiteText, TitleHide }) => {
 
-    const isWhiteText = whiteText ? true : false
+  const isWhiteText = whiteText ? true : false
+  const isTitleHide = TitleHide 
 
   const primary = useThemeColor({}, "Primary");
   const contrast = useThemeColor({}, "Contrast");
@@ -14,6 +15,7 @@ export const AchievementBox = ({ titre, image, description, isAchieved, onPress,
 
   const bottomSheetModalRef = useRef(null);
   const snapPoints = useMemo(() => ["50%"], []);
+
 
   return (
     <TouchableOpacity
@@ -33,11 +35,14 @@ export const AchievementBox = ({ titre, image, description, isAchieved, onPress,
         />
       </View>
 
-      {isWhiteText &&
-        <SubTitleText text={titre} style={styles.titleText} />}
-
-      {!isWhiteText &&
-        <SubText text={titre} style={styles.titleText} />}
+      {!isTitleHide ? 
+      <View style={{display: "flex", flexDirection: "row"}}>
+        {isWhiteText ? <LittleNormalText text={titre} style={styles.titleText} /> : <SubText text={titre} style={styles.titleText} />}
+      </View>
+      
+      :
+      
+      null}
 
     </TouchableOpacity>
   );
@@ -47,6 +52,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
   },
+
   achievementContainer: {
     borderRadius: 15,
     padding: 20,
@@ -64,6 +70,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     marginTop: 10,
+    textAlign: "center",
+
   },
 });
 

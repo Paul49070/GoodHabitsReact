@@ -1,59 +1,65 @@
 const getRandomPercentage = () => Math.floor(Math.random() * 100);
 
-const generateRandomHabitudes = () => {
+const habits = [
+  { titre: "Course à pied", icon: "run", description: "Rester actif avec la course à pied quotidienne." },
+  { titre: "Manger sainement", icon: "healthy", description: "Adopter un mode de vie alimentaire sain." },
+  { titre: "Lire", icon: "books", description: "Lire un livre chaque jour." },
+  { titre: "Méditation", icon: "meditation", description: "Pratiquer la méditation pour la paix intérieure." },
+  { titre: "Faire du sport", icon: "bike", description: "Participer régulièrement à des activités sportives." },
+  { titre: "Étudier", icon: "books", description: "Consacrer du temps à l'apprentissage continu." },
+  { titre: "Yoga", icon: "meditation", description: "Expérimenter les bienfaits de la pratique du yoga." },
+  { titre: "Peindre", icon: "pencil", description: "Exprimer sa créativité à travers la peinture." },
+  { titre: "Marche", icon: "run", description: "Faire une promenade quotidienne pour l'air frais et l'exercice." },
+  { titre: "Écrire", icon: "pencil", description: "Écrire régulièrement pour libérer ses pensées." },
+];
 
-  const titles = [
-    {titre: "Running", icon: require('../img/HabitsIcons/run.png') },
-    {titre: "Manger sain", icon: require('../img/HabitsIcons/healthy.png')},
-    {titre: "Lire", icon: require('../img/HabitsIcons/books.png')},
-    {titre: "Méditer", icon: require('../img/HabitsIcons/meditation.png')},
-    {titre: "Faire du sport", icon: require('../img/HabitsIcons/bike.png')},
-    {titre: "Étudier", icon: require('../img/HabitsIcons/books.png')},
-    {titre: "Yoga", icon: require('../img/HabitsIcons/meditation.png')},
-    {titre: "Peindre", icon: require('../img/HabitsIcons/pencil.png')},
-    {titre: "Marcher", icon: require('../img/HabitsIcons/run.png')},
-    {titre: "Écrire", icon: require('../img/HabitsIcons/pencil.png')},
-  ];
-  
-  const colors = [
-    "#ff4766",
-    "#0cf6b7",
-    "#ffa500",
-    "#800080",
-    "#00ff00",
-    "#0000ff",
-    "#ff00ff",
-    "#ffff00",
-    "#008080",
-    "#ff6347",
-  ];
 
-  const states = [
-    "done",
-    "todo",
-    "cancel",
-    "skip"
-  ]
+const colors = [
+  "#28AD5A",
+  "#6B46CA",
+  "#D34258",
+  "#10A0CF",
+  "#D3AD0A",
+  "#E067BF",
+  "#ff00ff",
+  "#E97136",
+];
 
-  const habitudes = titles.map(({titre, icon}, index) =>
-  {
-      const totalSteps = Math.floor(Math.random() * 9) + 1;
+const states = ["done", "todo", "cancel", "skip"];
 
-      return {
-        
-        titre: titre,
-        pourcentage: getRandomPercentage(),
-        color: colors[index % colors.length],
-        state: states[Math.floor(Math.random() * states.length)],
-        totalSteps: totalSteps,
-        icon: icon,
-        doneSteps:  Math.floor(Math.random() * totalSteps) + 1,
-        id: (index + 1).toString(),
-      }
-  });
-
-  return habitudes;
+// Function to generate coherent steps for a habit
+const generateSteps = (totalSteps) => {
+  const steps = [];
+  for (let i = 1; i <= totalSteps; i++) {
+    steps.push({
+      stepNumber: i,
+      title: `Etape ${i}`,
+      description: `Description for Etape ${i}`,
+    });
+  }
+  return steps;
 };
+
+const generateRandomHabitudes = () => {
+  return habits.map(({ titre, icon, description }, index) => {
+    const totalSteps = Math.floor(Math.random() * 4) + 1; // Let's limit steps to 1 to 4 for coherence
+
+    return {
+      titre: titre,
+      pourcentage: getRandomPercentage(),
+      color: colors[index % colors.length],
+      state: states[Math.floor(Math.random() * states.length)],
+      description : description,
+      totalSteps: totalSteps,
+      icon: icon,
+      doneSteps: Math.floor(Math.random() * totalSteps) + 1,
+      id: (index + 1).toString(),
+      steps: generateSteps(totalSteps), // Generate coherent steps for each habit
+    };
+  });
+};
+
+export default generateRandomHabitudes;
 
 const imagePaths = [
   require('../img/TestVrai.png'),
@@ -86,20 +92,52 @@ const imagePaths = [
 
 ];
 
-const names = [
-  "Paul", "Emma", "Louis", "Chloe", "Gabriel", "Ines", "William", "Olivia",
-  "Thomas", "Charlotte", "Leo", "Sophia", "Maxime", "Alice", "Hugo", "Julia",
-  "Alexandre", "Eva", "Nicolas", "Zoe", "Mathis", "Lena", "Raphael", "Camille",
-  "Arthur", "Emma"
+const people = [
+  { firstName: "Paul", lastName: "Martin", pseudo: "paul007" },
+  { firstName: "Emma", lastName: "Johnson", pseudo: "emma22" },
+  { firstName: "Louis", lastName: "Smith", pseudo: "lou33" },
+  { firstName: "Chloe", lastName: "Williams", pseudo: "chlo44" },
+  { firstName: "Gabriel", lastName: "Anderson", pseudo: "gabi55" },
+  { firstName: "Ines", lastName: "Brown", pseudo: "inny66" },
+  { firstName: "William", lastName: "Lee", pseudo: "will77" },
+  { firstName: "Olivia", lastName: "Miller", pseudo: "oliv88" },
+  { firstName: "Thomas", lastName: "Davis", pseudo: "tommy99" },
+  { firstName: "Charlotte", lastName: "Wilson", pseudo: "char100" },
+  { firstName: "Leo", lastName: "Taylor", pseudo: "leo101" },
+  { firstName: "Sophia", lastName: "Clark", pseudo: "soph123" },
+  { firstName: "Maxime", lastName: "Lewis", pseudo: "max45" },
+  { firstName: "Alice", lastName: "Scott", pseudo: "aliiice" },
+  { firstName: "Hugo", lastName: "White", pseudo: "hugohugo" },
+  { firstName: "Julia", lastName: "Thomas", pseudo: "julietta" },
+  { firstName: "Alexandre", lastName: "Roberts", pseudo: "alex33" },
+  { firstName: "Eva", lastName: "Hall", pseudo: "eviee" },
+  { firstName: "Nicolas", lastName: "Baker", pseudo: "nic99" },
+  { firstName: "Zoe", lastName: "Green", pseudo: "zoegirl" },
+  { firstName: "Mathis", lastName: "Adams", pseudo: "mathis99" },
+  { firstName: "Lena", lastName: "King", pseudo: "lenaqueen" },
+  { firstName: "Raphael", lastName: "Ward", pseudo: "raph14" },
+  { firstName: "Camille", lastName: "Cook", pseudo: "camcam" },
+  { firstName: "Arthur", lastName: "Hughes", pseudo: "art88" },
+  { firstName: "Lea", lastName: "Bell", pseudo: "lea77" }
 ];
 
 const generateFriends = () => {
 
   const friends = []
 
+  people.map((user, index) => {
+    friends.push(
+      {
+        nom: user.lastName, 
+        prenom: user.firstName, 
+        pseudo: user.pseudo,
+        image: imagePaths[index], 
+        id: index
+      })
+    })
+
   for(let i = 0; i<26; ++i)
   { 
-    friends.push({nom: names[i], image: imagePaths[i], id: i})
   }
 
   return friends
@@ -110,18 +148,22 @@ const generateRandomContributors = (habitudes) => {
   const contributors = [];
 
   habitudes.forEach((habitude) => {
-    const randomContributorsCount = Math.floor(Math.random() * (names.length + 1));
+    const randomContributorsCount = 10;
 
     for (let i = 0; i < randomContributorsCount; i++) {
 
-      const randomFriend = Friends[Math.floor(Math.random() * Friends.length)];
+      const randomFriend = Friends[i];
 
       const contributor = {
-        nom: randomFriend.name,
+        nom: randomFriend.nom,
         pourcentage: getRandomPercentage(),
-        habitude: habitude.titre,
+        habitude: {
+          titre: habitude.titre,
+          doneSteps: Math.floor(Math.random() * habitude.totalSteps),
+          totalSteps: habitude.totalSteps
+        },
         image: randomFriend.image,
-        id: randomFriend.id
+        id: i.toString()
       };
 
       contributors.push(contributor);
@@ -135,4 +177,4 @@ const Habitudes = generateRandomHabitudes();
 const Friends = generateFriends()
 const ContributorsHabits = generateRandomContributors(Habitudes);
 
-export { Habitudes, ContributorsHabits, Friends };
+export { Habitudes, ContributorsHabits, Friends, colors };
